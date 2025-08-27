@@ -14,7 +14,8 @@ const PlatformDemo = () => {
   const handleLogin = (userType: 'employee' | 'temporary' | 'admin', name: string) => {
     setCurrentUser({ name, type: userType });
     if (userType === 'admin') {
-      setCurrentView('admin-dashboard');
+      // Navigate to admin layout instead of dashboard
+      window.location.href = '/admin';
     } else if (userType === 'employee') {
       setCurrentView('employee-dashboard');
     } else {
