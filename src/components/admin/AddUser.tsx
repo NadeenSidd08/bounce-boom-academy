@@ -190,13 +190,13 @@ const AddUser = () => {
                       <SelectItem value="employee">
                         <div className="flex items-center">
                           <Users className="w-4 h-4 mr-2" />
-                          Employee
+                          Coach
                         </div>
                       </SelectItem>
                       <SelectItem value="temporary">
                         <div className="flex items-center">
                           <Calendar className="w-4 h-4 mr-2" />
-                          Temporary Employee
+                          Temporary Access
                         </div>
                       </SelectItem>
                       <SelectItem value="administrator">

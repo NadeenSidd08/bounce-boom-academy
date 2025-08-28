@@ -102,9 +102,9 @@ const UserManagement = () => {
       case 'administrator':
         return <Badge className="bg-primary text-primary-foreground">Administrator</Badge>;
       case 'employee':
-        return <Badge variant="secondary">Employee</Badge>;
+        return <Badge variant="secondary">Coach</Badge>;
       case 'temporary':
-        return <Badge variant="destructive">Temporary</Badge>;
+        return <Badge variant="destructive">Temporary Access</Badge>;
       default:
         return <Badge variant="outline">Unknown</Badge>;
     }

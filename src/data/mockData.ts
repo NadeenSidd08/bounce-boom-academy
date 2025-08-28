@@ -46,8 +46,8 @@ export interface AdminStats {
 export const mockUsers: User[] = [
   {
     id: 1,
-    name: 'John Smith',
-    email: 'john.smith@bounceboom.com',
+    name: 'Nadeen Siddiqui',
+    email: 'nadeen.siddiqui@bounceboom.com',
     username: 'john_coach',
     role: 'employee',
     status: 'active',
@@ -67,8 +67,8 @@ export const mockUsers: User[] = [
   },
   {
     id: 3,
-    name: 'Mike Wilson',
-    email: 'mike.wilson@bounceboom.com',
+    name: 'Greg Deinhart',
+    email: 'greg.deinhart@bounceboom.com',
     username: 'admin_mike',
     role: 'administrator',
     status: 'active',
