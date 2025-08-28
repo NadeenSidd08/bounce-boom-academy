@@ -274,57 +274,6 @@ const VideoManagement = () => {
         </Dialog>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid md:grid-cols-4 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Total Videos</p>
-                <p className="text-2xl font-bold text-primary">{videos.length}</p>
-              </div>
-              <PlayCircle className="w-8 h-8 text-primary" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Total Views</p>
-                <p className="text-2xl font-bold text-success">{totalViews.toLocaleString()}</p>
-              </div>
-              <Eye className="w-8 h-8 text-success" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Featured</p>
-                <p className="text-2xl font-bold text-secondary">{featuredCount}</p>
-              </div>
-              <Star className="w-8 h-8 text-secondary" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-muted-foreground">Temp Access</p>
-                <p className="text-2xl font-bold text-warning">{tempAccessCount}</p>
-              </div>
-              <Calendar className="w-8 h-8 text-warning" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
       {/* Filters */}
       <Card>
         <CardContent className="p-4">
