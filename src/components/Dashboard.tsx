@@ -136,41 +136,45 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
       <div className="container mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Sidebar */}
-          <aside className="lg:col-span-1">
-            <Card className="mb-6">
-              <CardHeader>
-                <CardTitle className="flex items-center text-lg">
-                  <Filter className="w-5 h-5 mr-2" />
-                  Categories
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
-                {categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
-                      selectedCategory === category.id
-                        ? 'bg-primary text-primary-foreground shadow-md'
-                        : 'hover:bg-muted'
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-medium">{category.name}</span>
-                      <Badge variant="secondary" className="text-xs">
-                        {userType === 'temporary' && category.id !== 'all' 
-                          ? Math.min(category.count, 5) 
-                          : category.count}
-                      </Badge>
-                    </div>
-                  </button>
-                ))}
-              </CardContent>
-            </Card>
+          {/* Sidebar - Only show for non-temporary users */}
+          {userType !== 'temporary' && (
+            <aside className="lg:col-span-1">
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle className="flex items-center text-lg">
+                    <Filter className="w-5 h-5 mr-2" />
+                    Categories
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {categories.map((category) => (
+                    <button
+                      key={category.id}
+                      onClick={() => setSelectedCategory(category.id)}
+                      className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
+                        selectedCategory === category.id
+                          ? 'bg-primary text-primary-foreground shadow-md'
+                          : 'hover:bg-muted'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="font-medium">{category.name}</span>
+                        <Badge variant="secondary" className="text-xs">
+                          {category.count}
+                        </Badge>
+                      </div>
+                    </button>
+                  ))}
+                </CardContent>
+              </Card>
+            </aside>
+          )}
 
-            {/* Access Info */}
+          {/* Main Content */}
+          <main className={userType === 'temporary' ? 'lg:col-span-4' : 'lg:col-span-3'}>
+            {/* Limited Access Warning for Temporary Users */}
             {userType === 'temporary' && (
-              <Card className="border-warning bg-warning/5">
+              <Card className="border-warning bg-warning/5 mb-6">
                 <CardContent className="p-4">
                   <div className="flex items-center space-x-2 mb-2">
                     <Clock className="w-5 h-5 text-warning" />
@@ -182,10 +186,7 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
                 </CardContent>
               </Card>
             )}
-          </aside>
 
-          {/* Main Content */}
-          <main className="lg:col-span-3">
             {/* Search Bar */}
             <div className="mb-6">
               <div className="relative">
