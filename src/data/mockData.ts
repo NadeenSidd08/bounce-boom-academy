@@ -67,8 +67,8 @@ export const mockUsers: User[] = [
   },
   {
     id: 3,
-    name: 'Greg Deinhart',
-    email: 'greg.deinhart@bounceboom.com',
+    name: 'Gregg Deinhart',
+    email: 'gregg.deinhart@bounceboom.com',
     username: 'admin_mike',
     role: 'administrator',
     status: 'active',

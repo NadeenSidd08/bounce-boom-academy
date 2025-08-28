@@ -92,7 +92,7 @@ const PlatformDemo = () => {
   const demoUsers = [
     { type: 'employee' as const, name: 'Nadeen Siddiqui', label: 'Coach' },
     { type: 'temporary' as const, name: 'Sarah Johnson', label: 'Temporary Access' },
-    { type: 'admin' as const, name: 'Greg Deinhart', label: 'Administrator' }
+    { type: 'admin' as const, name: 'Gregg Deinhart', label: 'Administrator' }
   ];
 
   return (

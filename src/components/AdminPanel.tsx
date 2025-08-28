@@ -43,7 +43,7 @@ const AdminPanel = () => {
     { 
       id: 3, 
       username: 'admin_mike', 
-      name: 'Mike Wilson', 
+      name: 'Gregg Deinhart', 
       role: 'admin', 
       createdAt: '2024-01-10',
       lastLogin: '2024-01-20',
