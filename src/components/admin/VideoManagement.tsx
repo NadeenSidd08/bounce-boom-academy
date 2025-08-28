@@ -346,12 +346,6 @@ const VideoManagement = () => {
                   
                   <div className="flex items-center space-x-3">
                     <div className="flex flex-col space-y-1">
-                      {video.featured && (
-                        <Badge className="bg-secondary text-secondary-foreground">
-                          <Star className="w-3 h-3 mr-1" />
-                          Featured
-                        </Badge>
-                      )}
                       {video.tempAccess ? (
                         <Badge className="bg-success text-success-foreground">Temp Access</Badge>
                       ) : (
