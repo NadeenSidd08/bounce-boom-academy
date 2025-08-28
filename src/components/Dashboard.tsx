@@ -118,7 +118,7 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
                 <Button 
                   variant="outline" 
                   size="sm"
-                  onClick={() => navigate('/admin/settings')}
+                  onClick={() => navigate('/admin/users')}
                 >
                   <Settings className="w-4 h-4 mr-2" />
                   Admin Settings
