@@ -3,6 +3,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { 
   Calendar, 
   PlayCircle, 
@@ -22,26 +31,43 @@ const TempAccessManager = () => {
   const [selectedVideoIds, setSelectedVideoIds] = useState<number[]>(
     mockVideos.filter(v => v.tempAccess).map(v => v.id)
   );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalSelectedVideoIds, setModalSelectedVideoIds] = useState<number[]>([]);
 
   const temporaryUsers = mockUsers.filter(user => user.role === 'temporary');
   const allVideos = videos;
   const currentlySelected = videos.filter(v => selectedVideoIds.includes(v.id));
-  const availableVideos = videos.filter(v => !selectedVideoIds.includes(v.id));
 
   const handleVideoToggle = (videoId: number, checked: boolean) => {
     if (checked) {
-      if (selectedVideoIds.length >= 5) {
-        toast({
-          title: "Selection limit reached",
-          description: "Temporary users can only access 5 videos at a time.",
-          variant: "destructive",
-        });
-        return;
-      }
       setSelectedVideoIds([...selectedVideoIds, videoId]);
     } else {
       setSelectedVideoIds(selectedVideoIds.filter(id => id !== videoId));
     }
+  };
+
+  const handleModalVideoToggle = (videoId: number, checked: boolean) => {
+    if (checked) {
+      setModalSelectedVideoIds([...modalSelectedVideoIds, videoId]);
+    } else {
+      setModalSelectedVideoIds(modalSelectedVideoIds.filter(id => id !== videoId));
+    }
+  };
+
+  const handleModalOpen = (open: boolean) => {
+    if (open) {
+      setModalSelectedVideoIds([...selectedVideoIds]);
+    }
+    setIsModalOpen(open);
+  };
+
+  const handleSaveModalChanges = () => {
+    setSelectedVideoIds([...modalSelectedVideoIds]);
+    setIsModalOpen(false);
+    toast({
+      title: "Selection updated",
+      description: `${modalSelectedVideoIds.length} videos are now available to temporary users.`,
+    });
   };
 
   const handleSaveChanges = () => {
@@ -94,7 +120,7 @@ const TempAccessManager = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Selected Videos</p>
-                <p className="text-2xl font-bold text-primary">{selectedVideoIds.length}/5</p>
+                <p className="text-2xl font-bold text-primary">{selectedVideoIds.length}</p>
               </div>
               <CheckCircle className="w-8 h-8 text-primary" />
             </div>
@@ -130,13 +156,13 @@ const TempAccessManager = () => {
 
       {/* Selection Limit Warning */}
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="space-y-6">
         {/* Currently Selected Videos */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center text-primary">
               <CheckCircle className="w-5 h-5 mr-2" />
-              Selected for Temporary Access ({selectedVideoIds.length}/5)
+              Selected for Temporary Access ({selectedVideoIds.length})
             </CardTitle>
             <CardDescription>
               These videos are currently available to temporary users
@@ -148,7 +174,7 @@ const TempAccessManager = () => {
                 <XCircle className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
                 <p className="text-muted-foreground">No videos selected for temporary access</p>
                 <p className="text-sm text-muted-foreground mt-2">
-                  Select up to 5 videos from the available list
+                  Use the "Manage Video List" button to select videos
                 </p>
               </div>
             ) : (
@@ -181,58 +207,67 @@ const TempAccessManager = () => {
           </CardContent>
         </Card>
 
-        {/* Available Videos */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center text-muted-foreground">
-              <PlayCircle className="w-5 h-5 mr-2" />
-              Available Videos ({availableVideos.length})
-            </CardTitle>
-            <CardDescription>
-              Choose from these videos to add to temporary access
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {availableVideos.length === 0 ? (
-              <div className="text-center py-8">
-                <CheckCircle className="w-12 h-12 text-success mx-auto mb-4" />
-                <p className="text-success font-medium">All videos selected!</p>
-                <p className="text-sm text-muted-foreground mt-2">
-                  You've reached the maximum of 5 videos for temporary access
-                </p>
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {availableVideos.map((video) => (
-                  <div key={video.id} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
-                    <Checkbox
-                      checked={false}
-                      onCheckedChange={(checked) => handleVideoToggle(video.id, checked as boolean)}
-                      disabled={selectedVideoIds.length >= 5}
-                    />
-                    <div className="w-16 h-12 bg-muted rounded flex items-center justify-center">
-                      <PlayCircle className="w-5 h-5 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-medium text-primary line-clamp-1">{video.title}</h4>
-                      <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                        <span className="capitalize">{video.category}</span>
-                        <span>{video.duration}</span>
-                        <span>{video.views} views</span>
+        {/* Manage Video List Button and Modal */}
+        <div className="flex justify-center">
+          <Dialog open={isModalOpen} onOpenChange={handleModalOpen}>
+            <DialogTrigger asChild>
+              <Button className="bg-primary hover:bg-primary/90">
+                Manage Video List
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden">
+              <DialogHeader>
+                <DialogTitle>Manage Video List</DialogTitle>
+                <DialogDescription>
+                  Select which videos should be available to temporary users
+                </DialogDescription>
+              </DialogHeader>
+              
+              <div className="flex-1 overflow-y-auto pr-2">
+                <div className="space-y-3">
+                  {allVideos.map((video) => (
+                    <div key={video.id} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-muted/50 transition-colors">
+                      <Checkbox
+                        checked={modalSelectedVideoIds.includes(video.id)}
+                        onCheckedChange={(checked) => handleModalVideoToggle(video.id, checked as boolean)}
+                      />
+                      <div className="w-16 h-12 bg-muted rounded flex items-center justify-center">
+                        <PlayCircle className="w-5 h-5 text-primary" />
+                      </div>
+                      <div className="flex-1">
+                        <h4 className="font-medium text-primary line-clamp-1">{video.title}</h4>
+                        <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+                          <span className="capitalize">{video.category}</span>
+                          <span>{video.duration}</span>
+                          <span>{video.views} views</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col space-y-1">
+                        {video.featured && (
+                          <Badge variant="secondary">Featured</Badge>
+                        )}
+                        {selectedVideoIds.includes(video.id) && (
+                          <Badge className="bg-success text-success-foreground">
+                            Currently Selected
+                          </Badge>
+                        )}
                       </div>
                     </div>
-                    <div className="flex flex-col space-y-1">
-                      {video.featured && (
-                        <Badge variant="secondary">Featured</Badge>
-                      )}
-                      <Badge variant="outline">Available</Badge>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            )}
-          </CardContent>
-        </Card>
+
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsModalOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={handleSaveModalChanges}>
+                  Save Changes ({modalSelectedVideoIds.length} selected)
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </div>
       </div>
 
       {/* Temporary Users Info */}
