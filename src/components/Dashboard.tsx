@@ -27,8 +27,8 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
 
   const categories = [
     { id: 'all', name: 'All Videos', count: 45 },
-    { id: 'technique', name: 'Technique', count: 15 },
-    { id: 'rules', name: 'Rules & Regulations', count: 8 },
+    { id: 'technique', name: 'Fundamental Techniques', count: 15 },
+    { id: 'rules', name: 'Drills & Games', count: 8 },
     { id: 'safety', name: 'Safety Protocols', count: 6 },
     { id: 'equipment', name: 'Equipment Care', count: 7 },
     { id: 'customer', name: 'Customer Service', count: 9 }
@@ -67,7 +67,7 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
       id: 5,
       title: "Tournament Rules Overview",
       duration: "2:00",
-      category: "rules",
+      category: "rules", 
       thumbnail: "/api/placeholder/300/200"
     }
   ];
