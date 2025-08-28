@@ -24,12 +24,10 @@ const AdminLayout = () => {
   const location = useLocation();
 
   const navigationItems = [
-    { path: '/admin', label: 'Dashboard', icon: Home },
     { path: '/admin/users', label: 'User Management', icon: Users },
     { path: '/admin/add-user', label: 'Add User', icon: Plus },
     { path: '/admin/videos', label: 'Video Management', icon: PlayCircle },
     { path: '/admin/temp-access', label: 'Temp Access', icon: Calendar },
-    { path: '/admin/settings', label: 'Settings', icon: Settings },
   ];
 
   const getBreadcrumbs = () => {
