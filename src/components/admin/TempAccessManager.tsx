@@ -243,9 +243,6 @@ const TempAccessManager = () => {
                         </div>
                       </div>
                       <div className="flex flex-col space-y-1">
-                        {video.featured && (
-                          <Badge variant="secondary">Featured</Badge>
-                        )}
                         {selectedVideoIds.includes(video.id) && (
                           <Badge className="bg-success text-success-foreground">
                             Currently Selected
