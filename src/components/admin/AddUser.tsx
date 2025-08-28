@@ -313,11 +313,11 @@ const AddUser = () => {
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm">Employees</span>
+                <span className="text-sm">Coaches</span>
                 <Badge variant="secondary">3</Badge>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm">Temporary</span>
+                <span className="text-sm">Temporary Access</span>
                 <Badge variant="destructive">2</Badge>
               </div>
               <div className="flex items-center justify-between">

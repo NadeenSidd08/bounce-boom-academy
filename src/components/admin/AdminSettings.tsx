@@ -218,8 +218,8 @@ const AdminSettings = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="employee">Employee</SelectItem>
-                  <SelectItem value="temporary">Temporary</SelectItem>
+                  <SelectItem value="employee">Coach</SelectItem>
+                  <SelectItem value="temporary">Temporary Access</SelectItem>
                 </SelectContent>
               </Select>
               <p className="text-xs text-muted-foreground">
