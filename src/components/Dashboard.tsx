@@ -26,12 +26,12 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'All Videos', count: 45 },
-    { id: 'technique', name: 'Fundamental Techniques', count: 15 },
-    { id: 'rules', name: 'Drills & Games', count: 8 },
+    { id: 'all', name: 'All Videos', count: 30 },
+    { id: 'technique', name: 'Fundamental Techniques', count: 6 },
+    { id: 'rules', name: 'Drills & Games', count: 10 },
     { id: 'safety', name: 'Safety Protocols', count: 6 },
-    { id: 'equipment', name: 'Equipment Care', count: 7 },
-    { id: 'customer', name: 'Customer Service', count: 9 }
+    { id: 'equipment', name: 'Equipment Care', count: 5 },
+    { id: 'customer', name: 'Customer Service', count: 3 }
   ];
 
   const sampleVideos = [
