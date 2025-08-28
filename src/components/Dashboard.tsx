@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,7 @@ interface DashboardProps {
 }
 
 const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
@@ -113,10 +115,24 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
             <div className="flex items-center space-x-4">
               {getAccessBadge()}
               {userType === 'admin' && (
-                <Button variant="outline" size="sm">
-                  <Settings className="w-4 h-4 mr-2" />
-                  Admin Panel
-                </Button>
+                <>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => navigate('/admin')}
+                  >
+                    <Users className="w-4 h-4 mr-2" />
+                    Admin Panel
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => navigate('/admin/settings')}
+                  >
+                    <Settings className="w-4 h-4 mr-2" />
+                    Admin Settings
+                  </Button>
+                </>
               )}
               <Button variant="outline" size="sm" onClick={onLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
