@@ -44,7 +44,7 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
     },
     {
       id: 2,
-      title: "Pickleball Court Safety Guidelines", 
+      title: "Touch the Net - Tennis Game Kids & Teens", 
       duration: "2:05",
       category: "safety",
       thumbnail: "/api/placeholder/300/200"
@@ -65,7 +65,7 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
     },
     {
       id: 5,
-      title: "Tournament Rules Overview",
+      title: "Surfer & Golfer - Tennis Strokes",
       duration: "2:00",
       category: "rules", 
       thumbnail: "/api/placeholder/300/200"
