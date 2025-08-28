@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Dashboard from "./Dashboard";
@@ -11,8 +11,33 @@ const PlatformDemo = () => {
   const [currentView, setCurrentView] = useState<ViewState>('login');
   const [currentUser, setCurrentUser] = useState({ name: '', type: 'employee' as 'employee' | 'temporary' | 'admin' });
 
+  // Load user state from localStorage on component mount
+  useEffect(() => {
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      try {
+        const user = JSON.parse(savedUser);
+        setCurrentUser(user);
+        if (user.type === 'admin') {
+          setCurrentView('admin-dashboard');
+        } else if (user.type === 'employee') {
+          setCurrentView('employee-dashboard');
+        } else {
+          setCurrentView('temp-dashboard');
+        }
+      } catch (error) {
+        console.error('Error parsing saved user data:', error);
+        localStorage.removeItem('currentUser');
+      }
+    }
+  }, []);
+
   const handleLogin = (userType: 'employee' | 'temporary' | 'admin', name: string) => {
-    setCurrentUser({ name, type: userType });
+    const user = { name, type: userType };
+    setCurrentUser(user);
+    // Save user to localStorage
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    
     if (userType === 'admin') {
       setCurrentView('admin-dashboard');
     } else if (userType === 'employee') {
@@ -23,6 +48,8 @@ const PlatformDemo = () => {
   };
 
   const handleLogout = () => {
+    // Clear user from localStorage
+    localStorage.removeItem('currentUser');
     setCurrentView('login');
     setCurrentUser({ name: '', type: 'employee' });
   };
