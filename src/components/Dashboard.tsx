@@ -38,42 +38,37 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
     {
       id: 1,
       title: "Proper Tennis Serve Technique",
-      duration: "12:30",
+      duration: "1:45",
       category: "technique",
-      thumbnail: "/api/placeholder/300/200",
-      featured: true
+      thumbnail: "/api/placeholder/300/200"
     },
     {
       id: 2,
       title: "Pickleball Court Safety Guidelines", 
-      duration: "8:15",
+      duration: "2:05",
       category: "safety",
-      thumbnail: "/api/placeholder/300/200",
-      featured: false
+      thumbnail: "/api/placeholder/300/200"
     },
     {
       id: 3,
       title: "Customer Interaction Best Practices",
-      duration: "15:45",
+      duration: "1:30",
       category: "customer", 
-      thumbnail: "/api/placeholder/300/200",
-      featured: true
+      thumbnail: "/api/placeholder/300/200"
     },
     {
       id: 4,
       title: "Equipment Maintenance Checklist",
-      duration: "6:20",
+      duration: "1:55",
       category: "equipment",
-      thumbnail: "/api/placeholder/300/200",
-      featured: false
+      thumbnail: "/api/placeholder/300/200"
     },
     {
       id: 5,
       title: "Tournament Rules Overview",
-      duration: "18:30", 
+      duration: "2:00",
       category: "rules",
-      thumbnail: "/api/placeholder/300/200",
-      featured: false
+      thumbnail: "/api/placeholder/300/200"
     }
   ];
 
@@ -219,15 +214,6 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
                         <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                           <PlayCircle className="w-8 h-8 text-primary" />
                         </div>
-                      </div>
-                      
-                      <div className="absolute top-2 right-2 flex space-x-1">
-                        {video.featured && (
-                          <Badge className="bg-secondary text-secondary-foreground">
-                            <Star className="w-3 h-3 mr-1" />
-                            Featured
-                          </Badge>
-                        )}
                       </div>
                       
                       <div className="absolute bottom-2 right-2">
