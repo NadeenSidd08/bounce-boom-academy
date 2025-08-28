@@ -129,19 +129,6 @@ const TempAccessManager = () => {
       </div>
 
       {/* Selection Limit Warning */}
-      {selectedVideoIds.length >= 5 && (
-        <Card className="border-warning bg-warning/5">
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-2">
-              <AlertTriangle className="w-5 h-5 text-warning" />
-              <p className="text-warning-foreground">
-                <strong>Selection limit reached.</strong> You have selected the maximum of 5 videos for temporary users.
-                To add more videos, you must first remove some from the current selection.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      )}
 
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Currently Selected Videos */}
