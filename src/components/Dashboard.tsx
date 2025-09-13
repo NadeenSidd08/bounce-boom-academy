@@ -91,6 +91,10 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
 
   const accessibleVideos = userType === 'temporary' ? filteredVideos.slice(0, 5) : filteredVideos;
 
+  const handleVideoClick = (videoId: number) => {
+    navigate(`/videos/${videoId}`);
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -208,7 +212,11 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
 
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {accessibleVideos.map((video) => (
-                  <Card key={video.id} className="group hover:shadow-lg transition-all duration-300 cursor-pointer">
+                  <Card 
+                    key={video.id} 
+                    className="group hover:shadow-lg transition-all duration-300 cursor-pointer"
+                    onClick={() => handleVideoClick(video.id)}
+                  >
                     <div className="aspect-video bg-muted rounded-t-lg relative overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
                         <div className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">

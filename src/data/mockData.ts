@@ -26,6 +26,15 @@ export interface Video {
   thumbnail?: string;
 }
 
+export interface Comment {
+  id: number;
+  videoId: number;
+  userId: number;
+  userName: string;
+  text: string;
+  timestamp: string;
+}
+
 export interface Category {
   id: string;
   name: string;
@@ -248,6 +257,58 @@ export const mockVideos: Video[] = [
   }
 ];
 
+// Mock Comments Data
+export const mockComments: Comment[] = [
+  {
+    id: 1,
+    videoId: 1,
+    userId: 1,
+    userName: 'Nadeen Siddiqui',
+    text: 'Great explanation of the serve technique! The grip demonstration was particularly helpful.',
+    timestamp: '2024-01-16T10:30:00Z'
+  },
+  {
+    id: 2,
+    videoId: 1,
+    userId: 4,
+    userName: 'Emily Davis',
+    text: 'This video helped me improve my serve consistency. Thank you!',
+    timestamp: '2024-01-17T14:15:00Z'
+  },
+  {
+    id: 3,
+    videoId: 1,
+    userId: 2,
+    userName: 'Sarah Johnson',
+    text: 'Perfect timing for this video. I was struggling with my serve form.',
+    timestamp: '2024-01-18T09:45:00Z'
+  },
+  {
+    id: 4,
+    videoId: 2,
+    userId: 6,
+    userName: 'Lisa Thompson',
+    text: 'Essential safety information. Every coach should watch this.',
+    timestamp: '2024-01-13T16:20:00Z'
+  },
+  {
+    id: 5,
+    videoId: 3,
+    userId: 1,
+    userName: 'Nadeen Siddiqui',
+    text: 'The customer service scenarios are very realistic and helpful.',
+    timestamp: '2024-01-11T11:30:00Z'
+  },
+  {
+    id: 6,
+    videoId: 4,
+    userId: 5,
+    userName: 'Carlos Martinez',
+    text: 'Clear and concise equipment maintenance guide. Very practical.',
+    timestamp: '2024-01-09T13:45:00Z'
+  }
+];
+
 // Mock Admin Stats
 export const mockAdminStats: AdminStats = {
   totalUsers: mockUsers.length,
@@ -289,6 +350,25 @@ export const searchVideos = (query: string) => {
     video.description.toLowerCase().includes(lowercaseQuery) ||
     video.category.toLowerCase().includes(lowercaseQuery)
   );
+};
+
+// Comment Helper Functions
+export const getCommentsByVideoId = (videoId: number) => {
+  return mockComments.filter(comment => comment.videoId === videoId);
+};
+
+export const addComment = (commentData: Omit<Comment, 'id' | 'timestamp'>) => {
+  const newComment: Comment = {
+    ...commentData,
+    id: Math.max(...mockComments.map(c => c.id)) + 1,
+    timestamp: new Date().toISOString()
+  };
+  mockComments.push(newComment);
+  return newComment;
+};
+
+export const getVideoById = (id: number) => {
+  return mockVideos.find(video => video.id === id);
 };
 
 // Mock data mutation functions (for demo purposes)
