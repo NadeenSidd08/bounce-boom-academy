@@ -13,7 +13,8 @@ import {
   Calendar,
   Clock,
   Star,
-  ThumbsUp
+  ThumbsUp,
+  Eye
 } from "lucide-react";
 import { mockVideos, updateVideoLikes } from "@/data/mockData";
 
@@ -26,6 +27,8 @@ interface DashboardProps {
 const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [videos, setVideos] = useState(mockVideos);
+  const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
   const [videos, setVideos] = useState(mockVideos);
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
 
@@ -59,6 +62,31 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
 
   const handleVideoClick = (videoId: number) => {
     navigate(`/videos/${videoId}`);
+  };
+
+  const handleLikeClick = (e: React.MouseEvent, videoId: number) => {
+    e.stopPropagation(); // Prevent video navigation when clicking like button
+    
+    const isLiked = likedVideos.has(videoId);
+    const updatedVideo = updateVideoLikes(videoId, !isLiked);
+    
+    if (updatedVideo) {
+      // Update local videos state to reflect the change
+      setVideos(prevVideos => 
+        prevVideos.map(v => v.id === videoId ? updatedVideo : v)
+      );
+      
+      // Update liked videos set
+      setLikedVideos(prev => {
+        const newSet = new Set(prev);
+        if (isLiked) {
+          newSet.delete(videoId);
+        } else {
+          newSet.add(videoId);
+        }
+        return newSet;
+      });
+    }
   };
 
   const handleLikeClick = (e: React.MouseEvent, videoId: number) => {
@@ -225,9 +253,32 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
                       <h3 className="font-semibold text-primary mb-2 line-clamp-2">
                         {video.title}
                       </h3>
-                      <div className="flex items-center justify-between text-sm text-muted-foreground">
+                      <div className="flex items-center justify-between text-sm text-muted-foreground mb-3">
                         <span className="capitalize">{video.category}</span>
                         <span>{video.duration}</span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3 text-xs text-muted-foreground">
+                          <div className="flex items-center space-x-1">
+                            <Eye className="w-3 h-3" />
+                            <span>{video.views}</span>
+                          </div>
+                        </div>
+                        
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className={`h-8 px-2 hover:bg-primary/10 ${
+                            likedVideos.has(video.id) 
+                              ? 'text-primary bg-primary/5' 
+                              : 'text-muted-foreground hover:text-primary'
+                          }`}
+                          onClick={(e) => handleLikeClick(e, video.id)}
+                        >
+                          <ThumbsUp className="w-3 h-3 mr-1" />
+                          <span className="text-xs">{video.likes}</span>
+                        </Button>
                       </div>
                     </CardContent>
                   </Card>

@@ -34,6 +34,7 @@ const VideoDetail = ({ currentUser = { id: 1, name: 'Current User' } }: VideoDet
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -50,6 +51,22 @@ const VideoDetail = ({ currentUser = { id: 1, name: 'Current User' } }: VideoDet
     const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/;
     const match = url.match(regex);
     return match ? match[1] : null;
+  };
+
+  const handleLikeClick = () => {
+    if (!video) return;
+    
+    const updatedVideo = updateVideoLikes(video.id, !hasLiked);
+    
+    if (updatedVideo) {
+      setVideo(updatedVideo);
+      setHasLiked(!hasLiked);
+      
+      toast({
+        title: hasLiked ? "Like removed" : "Video liked!",
+        description: hasLiked ? "You unliked this video." : "Thanks for liking this video!",
+      });
+    }
   };
 
   const handleLikeClick = () => {
@@ -205,6 +222,20 @@ const VideoDetail = ({ currentUser = { id: 1, name: 'Current User' } }: VideoDet
                   <h1 className="text-2xl font-bold text-primary mb-2">{video.title}</h1>
                   <p className="text-muted-foreground mb-4">{video.description}</p>
                 </div>
+                
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className={`ml-4 ${
+                    hasLiked 
+                      ? 'text-primary bg-primary/10 hover:bg-primary/20' 
+                      : 'text-muted-foreground hover:text-primary hover:bg-primary/10'
+                  }`}
+                  onClick={handleLikeClick}
+                >
+                  <ThumbsUp className="w-4 h-4 mr-2" />
+                  <span>{video.likes}</span>
+                </Button>
               </div>
               
               <div className="flex items-center space-x-6 text-sm text-muted-foreground">
