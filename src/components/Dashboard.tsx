@@ -29,8 +29,6 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [videos, setVideos] = useState(mockVideos);
   const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
-  const [videos, setVideos] = useState(mockVideos);
-  const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
 
   const categories = [
     { id: 'all', name: 'All Videos', count: 30 },
