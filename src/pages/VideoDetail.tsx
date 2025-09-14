@@ -11,9 +11,10 @@ import {
   Send,
   Calendar,
   Eye,
-  Clock
+  Clock,
+  ThumbsUp
 } from "lucide-react";
-import { getVideoById, getCommentsByVideoId, addComment, Comment } from "@/data/mockData";
+import { getVideoById, getCommentsByVideoId, addComment, updateVideoLikes, Comment } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
 
 interface VideoDetailProps {
@@ -32,6 +33,7 @@ const VideoDetail = ({ currentUser = { id: 1, name: 'Current User' } }: VideoDet
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasLiked, setHasLiked] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -50,6 +52,21 @@ const VideoDetail = ({ currentUser = { id: 1, name: 'Current User' } }: VideoDet
     return match ? match[1] : null;
   };
 
+  const handleLikeClick = () => {
+    if (!video) return;
+    
+    const updatedVideo = updateVideoLikes(video.id, !hasLiked);
+    
+    if (updatedVideo) {
+      setVideo(updatedVideo);
+      setHasLiked(!hasLiked);
+      
+      toast({
+        title: hasLiked ? "Like removed" : "Video liked!",
+        description: hasLiked ? "You unliked this video." : "Thanks for liking this video!",
+      });
+    }
+  };
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
     

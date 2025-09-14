@@ -21,6 +21,7 @@ export interface Video {
   youtubeUrl: string;
   uploadDate: string;
   views: number;
+  likes: number;
   featured: boolean;
   tempAccess: boolean; // Available for temporary users
   thumbnail?: string;
@@ -168,6 +169,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=dQw4w9WgXcQ',
     uploadDate: '2024-01-15',
     views: 145,
+    likes: 23,
     featured: true,
     tempAccess: true
   },
@@ -180,6 +182,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=example2',
     uploadDate: '2024-01-12',
     views: 89,
+    likes: 15,
     featured: false,
     tempAccess: true
   },
@@ -192,6 +195,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=example3',
     uploadDate: '2024-01-10',
     views: 203,
+    likes: 41,
     featured: true,
     tempAccess: false
   },
@@ -204,6 +208,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=example4',
     uploadDate: '2024-01-08',
     views: 67,
+    likes: 8,
     featured: false,
     tempAccess: true
   },
@@ -216,6 +221,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=example5',
     uploadDate: '2024-01-05',
     views: 134,
+    likes: 27,
     featured: false,
     tempAccess: false
   },
@@ -228,6 +234,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=example6',
     uploadDate: '2024-01-03',
     views: 98,
+    likes: 19,
     featured: true,
     tempAccess: true
   },
@@ -240,6 +247,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=example7',
     uploadDate: '2024-01-01',
     views: 156,
+    likes: 32,
     featured: false,
     tempAccess: false
   },
@@ -252,6 +260,7 @@ export const mockVideos: Video[] = [
     youtubeUrl: 'https://youtube.com/watch?v=example8',
     uploadDate: '2023-12-28',
     views: 87,
+    likes: 12,
     featured: false,
     tempAccess: true
   }
@@ -405,7 +414,8 @@ export const addVideo = (videoData: Omit<Video, 'id' | 'uploadDate' | 'views'>) 
     ...videoData,
     id: Math.max(...mockVideos.map(v => v.id)) + 1,
     uploadDate: new Date().toISOString().split('T')[0],
-    views: 0
+    views: 0,
+    likes: 0
   };
   mockVideos.push(newVideo);
   return newVideo;
@@ -424,6 +434,19 @@ export const deleteVideo = (id: number) => {
   const videoIndex = mockVideos.findIndex(v => v.id === id);
   if (videoIndex !== -1) {
     return mockVideos.splice(videoIndex, 1)[0];
+  }
+  return null;
+};
+
+export const updateVideoLikes = (videoId: number, increment: boolean) => {
+  const videoIndex = mockVideos.findIndex(v => v.id === videoId);
+  if (videoIndex !== -1) {
+    if (increment) {
+      mockVideos[videoIndex].likes += 1;
+    } else {
+      mockVideos[videoIndex].likes = Math.max(0, mockVideos[videoIndex].likes - 1);
+    }
+    return mockVideos[videoIndex];
   }
   return null;
 };

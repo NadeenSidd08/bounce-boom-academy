@@ -12,8 +12,10 @@ import {
   Settings, 
   Calendar,
   Clock,
-  Star
+  Star,
+  ThumbsUp
 } from "lucide-react";
+import { mockVideos, updateVideoLikes } from "@/data/mockData";
 
 interface DashboardProps {
   userType: 'employee' | 'temporary' | 'admin';
@@ -24,6 +26,8 @@ interface DashboardProps {
 const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('all');
+  const [videos, setVideos] = useState(mockVideos);
+  const [likedVideos, setLikedVideos] = useState<Set<number>>(new Set());
 
   const categories = [
     { id: 'all', name: 'All Videos', count: 30 },
@@ -32,44 +36,6 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
     { id: 'safety', name: 'Safety Protocols', count: 6 },
     { id: 'equipment', name: 'Equipment Care', count: 5 },
     { id: 'customer', name: 'Customer Service', count: 3 }
-  ];
-
-  const sampleVideos = [
-    {
-      id: 1,
-      title: "Proper Tennis Serve Technique",
-      duration: "1:45",
-      category: "technique",
-      thumbnail: "/api/placeholder/300/200"
-    },
-    {
-      id: 2,
-      title: "Touch the Net - Tennis Game Kids & Teens", 
-      duration: "2:05",
-      category: "safety",
-      thumbnail: "/api/placeholder/300/200"
-    },
-    {
-      id: 3,
-      title: "Customer Interaction Best Practices",
-      duration: "1:30",
-      category: "customer", 
-      thumbnail: "/api/placeholder/300/200"
-    },
-    {
-      id: 4,
-      title: "Equipment Maintenance Checklist",
-      duration: "1:55",
-      category: "equipment",
-      thumbnail: "/api/placeholder/300/200"
-    },
-    {
-      id: 5,
-      title: "Surfer & Golfer - Tennis Strokes",
-      duration: "2:00",
-      category: "rules", 
-      thumbnail: "/api/placeholder/300/200"
-    }
   ];
 
   const getAccessBadge = () => {
@@ -86,8 +52,8 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
   };
 
   const filteredVideos = selectedCategory === 'all' 
-    ? sampleVideos 
-    : sampleVideos.filter(video => video.category === selectedCategory);
+    ? videos 
+    : videos.filter(video => video.category === selectedCategory);
 
   const accessibleVideos = userType === 'temporary' ? filteredVideos.slice(0, 5) : filteredVideos;
 
@@ -95,6 +61,30 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
     navigate(`/videos/${videoId}`);
   };
 
+  const handleLikeClick = (e: React.MouseEvent, videoId: number) => {
+    e.stopPropagation(); // Prevent video navigation when clicking like button
+    
+    const isLiked = likedVideos.has(videoId);
+    const updatedVideo = updateVideoLikes(videoId, !isLiked);
+    
+    if (updatedVideo) {
+      // Update local videos state to reflect the change
+      setVideos(prevVideos => 
+        prevVideos.map(v => v.id === videoId ? updatedVideo : v)
+      );
+      
+      // Update liked videos set
+      setLikedVideos(prev => {
+        const newSet = new Set(prev);
+        if (isLiked) {
+          newSet.delete(videoId);
+        } else {
+          newSet.add(videoId);
+        }
+        return newSet;
+      });
+    }
+  };
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
