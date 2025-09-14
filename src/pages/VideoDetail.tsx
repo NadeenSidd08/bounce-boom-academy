@@ -34,7 +34,6 @@ const VideoDetail = ({ currentUser = { id: 1, name: 'Current User' } }: VideoDet
   const [newComment, setNewComment] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasLiked, setHasLiked] = useState(false);
-  const [hasLiked, setHasLiked] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -69,21 +68,6 @@ const VideoDetail = ({ currentUser = { id: 1, name: 'Current User' } }: VideoDet
     }
   };
 
-  const handleLikeClick = () => {
-    if (!video) return;
-    
-    const updatedVideo = updateVideoLikes(video.id, !hasLiked);
-    
-    if (updatedVideo) {
-      setVideo(updatedVideo);
-      setHasLiked(!hasLiked);
-      
-      toast({
-        title: hasLiked ? "Like removed" : "Video liked!",
-        description: hasLiked ? "You unliked this video." : "Thanks for liking this video!",
-      });
-    }
-  };
   const handleSubmitComment = async (e: React.FormEvent) => {
     e.preventDefault();
     

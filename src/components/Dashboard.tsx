@@ -87,30 +87,6 @@ const Dashboard = ({ userType, userName, onLogout }: DashboardProps) => {
     }
   };
 
-  const handleLikeClick = (e: React.MouseEvent, videoId: number) => {
-    e.stopPropagation(); // Prevent video navigation when clicking like button
-    
-    const isLiked = likedVideos.has(videoId);
-    const updatedVideo = updateVideoLikes(videoId, !isLiked);
-    
-    if (updatedVideo) {
-      // Update local videos state to reflect the change
-      setVideos(prevVideos => 
-        prevVideos.map(v => v.id === videoId ? updatedVideo : v)
-      );
-      
-      // Update liked videos set
-      setLikedVideos(prev => {
-        const newSet = new Set(prev);
-        if (isLiked) {
-          newSet.delete(videoId);
-        } else {
-          newSet.add(videoId);
-        }
-        return newSet;
-      });
-    }
-  };
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
